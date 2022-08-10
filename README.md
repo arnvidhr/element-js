@@ -21,3 +21,7 @@ In sum, it is one file, one base class on which the entire Web project is built.
 P.S.
 
 I want this library to be available to everyone, both commercial and non-commercial entities. This is an approach to Front-end programming from a slightly different, more human and easier-to-understand perspective for a person or a programmer.
+
+## Project status
+
+Under development.
