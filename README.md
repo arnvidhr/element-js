@@ -14,6 +14,6 @@ More than three years ago, while working in a company, developing a 3-year proje
 
 In this way, each element is separated into a separate class or file with its own business logic, which is very similar to programming on the Microsoft platform, as well as creating real OOP classes in JavaScript is easy to read and understand even for C# or Java programmers.
 
-This small library can destroy mountains, as we found out during our project. However, I cannot make the original version of the library public, which is why I decided to create a second generation version of it in the form of open source.
+This small library can overthrow mountains, as we found out during our project. However, I cannot make the original version of the library public, which is why I decided to create a second generation version of it in the form of open source.
 
 In sum, it is one file, one base class on which the entire Web project is built.
