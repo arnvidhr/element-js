@@ -17,3 +17,7 @@ In this way, each element is separated into a separate class or file with its ow
 This small library can overthrow mountains, as we found out during our project. However, I cannot make the original version of the library public, which is why I decided to create a second generation version of it in the form of open source.
 
 In sum, it is one file, one base class on which the entire Web project is built.
+
+P.S.
+
+I want this library to be available to everyone, both commercial and non-commercial entities. This is an approach to Front-end programming from a slightly different, more human and easier-to-understand perspective for a person or a programmer.
