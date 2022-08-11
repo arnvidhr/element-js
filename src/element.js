@@ -78,6 +78,8 @@ class Element {
 	#_jqParent;	// Parent jQuery representation
 
 	/// Public properties
+	children = [];
+
 	// HTMl Element tag
 	get tag() {
 		return this.jqThis.prop("tagName");
@@ -138,12 +140,16 @@ class Element {
 	set parent(val) {
 
 		if (val instanceof Element) {
-			this.#_parent = this.#_params.parent;
-			this.#_parent.jqThis.append(this.jqThis);
+			//this.#_parent = this.#_params.parent;
+			//this.#_parent.jqThis.append(this.jqThis);
+			this.#_parent = val;
+			val.jqThis.append(this.jqThis);
 
 		} else if (val instanceof jQuery) {
-			this.#_jqParent = this.#_params.parent;
-			this.#_jqParent.append(this.jqThis);
+			//this.#_jqParent = this.#_params.parent;
+			//this.#_jqParent.append(this.jqThis);
+			this.#_jqParent = val;
+			val.append(this.jqThis);
 		}
 	}
 
@@ -236,13 +242,14 @@ class Element {
 					break;
 
 				case 'childs':
-					// @TODO: Implement
+					this.add(val);
+					break;
+
+				case 'parent':
+					this.parent = val;
 					break;
 			}
 		}
-
-		// Parent
-		this.parent = this.#_params.parent;
 	}
 
 	/*
@@ -265,7 +272,43 @@ class Element {
 			this.jqThis.attr(prop, value);
 	}
 
-	add() {
-		// @TODO: Implement
+	/*
+	 * add array|object to this Element as its child
+	 * 
+	 * @recursive
+	 */
+	add(params) {
+
+		var element;
+
+		// Element instance
+		if (params instanceof Element) {
+
+			// Element
+			element = params;
+			// Assign this instance as parent to its child
+			element.parent = this;
+			// Adding to children collection
+			this.children.push(element);
+		}
+		// Object, but not Element, probably params
+		else if ($.isPlainObject(params)) {
+
+			// Element (parent from params will be overriden)
+			element = new Element(params);
+			// Add
+			this.add(element);
+		}
+		// Array
+		else if ($.isArray(params)) {
+			// Add each element
+			for (const item of params) {
+				this.add(item);
+			}
+		}
+
+		// retVal
+		if (element !== undefined)
+			return element;
 	}
 }
