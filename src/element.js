@@ -21,9 +21,7 @@ class Element {
 
 	static DEFAULT_ELEMENT = 'div'; // In case if consturctor parameters are empty
 
-	/*
-	 * HTML self-closing elements
-	 */
+	// HTML self-closing elements
 	static SELF_CLOSING_TAGS = [
 		'area',
 		'base',
@@ -40,9 +38,7 @@ class Element {
 		'track'
 	];
 
-	/*
-	 * Attributes 
-	 */
+	// HTML Attributes
 	static ATTR_ID = 'id';
 	static ATTR_NAME = 'name';
 	static ATTR_CLASS = 'class';
@@ -74,16 +70,14 @@ class Element {
 		Element.ATTR_READONLY,
 	];
 
-	// Private attributes
+	/// Private attributes
 	#_params;	// Constructor's received raw params
 	#_tag;		// This HTML element tag
 	#_jqThis;	// This class jQuery representation
 	#_parent;	// Element class parent
 	#_jqParent;	// Parent jQuery representation
 
-	/*
-	 * Class properties
-	 */
+	/// Public properties
 	// HTMl Element tag
 	get tag() {
 		return this.jqThis.prop("tagName");
