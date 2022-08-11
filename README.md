@@ -14,7 +14,7 @@ More than three years ago, while working in a company, developing a 3-year proje
 
 In this way, each element is separated into a separate class or file with its own business logic, which is very similar to programming on the C#, Java and other programming languages, where developers developing classes with standart OOP syntax, rather than objects.
 
-This small library can overthrow mountains, as we found out during our project. However, I cannot make the original version of the library public, which is why I decided to create a second generation version of it in the form of open source.
+This small library can overthrow mountains, as we found out during our project. However, I cannot make the original version of the library public, which is why I decided to create a second generation version of it in the form of open source. With the help of this library, it is possible to create a front-end UI of high complexity, which consists of many elements, all of which can have their own business logic.
 
 In sum, it is one file, one base class on which the entire Web project can be built.
 
