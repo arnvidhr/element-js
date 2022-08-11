@@ -1,4 +1,4 @@
-# element-js
+# element.js
 
 Element.js is web front-end development from a real OOP perspective, where we create real OOP classes.
 
