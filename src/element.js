@@ -215,7 +215,7 @@ class Element {
 
 	#_init() {
 
-		// HTML element tag
+		// HTML element tag fist. As it is crucial.
 		this.#_tag = this.#_params.tag;
 
 		for (const paraKey in this.#_params) {
@@ -224,7 +224,7 @@ class Element {
 			switch (paraKey) {
 
 				case 'tag':
-					// HTML element attributes
+					// Already initialized
 					break;
 
 				case 'attrs':
@@ -239,6 +239,10 @@ class Element {
 
 				case 'html':
 					this.html = val;
+					break;
+
+				case 'childs':
+					// @TODO: Implement
 					break;
 			}
 		}
