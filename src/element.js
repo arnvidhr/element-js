@@ -16,7 +16,7 @@ class Element {
 	 * By default: disabled
 	 */
 	static ENFORCE_ID = false; // Do we need ids for every DOM element
-	static DEFAULT_ID_TAG = 'E';
+	static DEFAULT_ID_PREFIX = 'E';
 	static CONTROL_ID = '{control-id}';
 
 	static DEFAULT_ELEMENT = 'div'; // In case if consturctor parameters are empty
@@ -74,12 +74,12 @@ class Element {
 		Element.ATTR_READONLY,
 	];
 
-	/**
-	 * Private attributes
-	 */
-	#_params;
-	#_tag;
-	#_jqThis;
+	// Private attributes
+	#_params;	// Constructor's received raw params
+	#_tag;		// This HTML element tag
+	#_jqThis;	// This class jQuery representation
+	#_parent;	// Element class parent
+	#_jqParent;	// Parent jQuery representation
 
 	/*
 	 * Class properties
@@ -93,8 +93,8 @@ class Element {
 	}
 
 	get isSelfClosingTag() {
-		if (this.tag !== undefined) {
-			return $.inArray(this.tag.toLowerCase(), Element.SELF_CLOSING_TAGS) != -1;
+		if (this.#_tag !== undefined) {
+			return $.inArray(this.#_tag.toLowerCase(), Element.SELF_CLOSING_TAGS) != -1;
 		}
 		return false;
 	}
@@ -137,6 +137,22 @@ class Element {
 		this.jqThis.height(val);
 	}
 
+	// Parent element class
+	get parent() {
+		return this.#_parent;
+	}
+	set parent(val) {
+
+		if (val instanceof Element) {
+			this.#_parent = this.#_params.parent;
+			this.#_parent.jqThis.append(this.jqThis);
+
+		} else if (val instanceof jQuery) {
+			this.#_jqParent = this.#_params.parent;
+			this.#_jqParent.append(this.jqThis);
+		}
+	}
+
 	/*
 	 * jQuery representation of this HTML element
 	 * Or its entry point for various use, if needed.
@@ -157,6 +173,19 @@ class Element {
 		return this.#_jqThis;
 	}
 
+	// jQuery level parent
+	get jqParent() {
+		if (this.#_parent instanceof Element) {
+			return this.parent.jqThis;
+		} else {
+			return this.#_jqParent;
+		}
+	}
+	set jqParent(val) {
+		this.#_jqParent = val;
+	}
+
+	// Current class name (with inheritance I think, not sure)
 	get className() {
 		// @see https://stackoverflow.com/a/30560581
 		return this.constructor.name;
@@ -175,24 +204,47 @@ class Element {
 			tag: Element.DEFAULT_ELEMENT,
 			// Html tag attributes
 			attrs: [],
-			// Wanted child elements, if needed
+			// Wanted child elements, if needed @TODO: implement
 			childs: [],
 			// Parent Element class
 			parent: undefined,
-		}, arguments);
+		}, arguments[0]);
 
 		this.#_init();
 	}
 
 	#_init() {
-		var _this = this;
 
 		// HTML element tag
 		this.#_tag = this.#_params.tag;
 
-		$.each(_this.#_params.attrs, function (key, value) {
-			_this.attr(key, value);
-		});
+		for (const paraKey in this.#_params) {
+			var val = this.#_params[paraKey];
+
+			switch (paraKey) {
+
+				case 'tag':
+					// HTML element attributes
+					break;
+
+				case 'attrs':
+					for (const key in val) {
+						this.attr(key, val[key]);
+					}
+					break;
+
+				case 'text':
+					this.text = val;
+					break;
+
+				case 'html':
+					this.html = val;
+					break;
+			}
+		}
+
+		// Parent
+		this.parent = this.#_params.parent;
 	}
 
 	/*
@@ -216,6 +268,6 @@ class Element {
 	}
 
 	add() {
-
+		// @TODO: Implement
 	}
 }
