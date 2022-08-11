@@ -140,14 +140,10 @@ class Element {
 	set parent(val) {
 
 		if (val instanceof Element) {
-			//this.#_parent = this.#_params.parent;
-			//this.#_parent.jqThis.append(this.jqThis);
 			this.#_parent = val;
 			val.jqThis.append(this.jqThis);
 
 		} else if (val instanceof jQuery) {
-			//this.#_jqParent = this.#_params.parent;
-			//this.#_jqParent.append(this.jqThis);
 			this.#_jqParent = val;
 			val.append(this.jqThis);
 		}
