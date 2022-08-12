@@ -201,7 +201,7 @@ class Element {
 			// Html tag attributes
 			attrs: [],
 			// Wanted child elements, if needed @TODO: implement
-			childs: [],
+			children: [],
 			// Parent Element class
 			parent: undefined,
 		}, arguments[0]);
@@ -237,7 +237,7 @@ class Element {
 					this.html = val;
 					break;
 
-				case 'childs':
+				case 'children':
 					this.add(val);
 					break;
 
