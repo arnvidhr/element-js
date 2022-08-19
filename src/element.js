@@ -1,5 +1,6 @@
 /**
  * Element.js is Web Front-End development from real OOP perspective, where we develop real OOP classes.
+ * Written By Arvydas Grigonis
  * 
  * This software is opensource under Apache 2.00 licence.
  * Legitimate for non-commercial and commercial use.
@@ -79,6 +80,9 @@ class Element {
 
 	/// Public properties
 	children = [];
+
+	/// Events
+	onClear;
 
 	// HTMl Element tag
 	get tag() {
@@ -306,5 +310,50 @@ class Element {
 		// retVal
 		if (element !== undefined)
 			return element;
+	}
+
+	addChildBr() {
+		return this.add({ tag: 'br' });
+	}
+
+	addChildHr() {
+		return this.add({ tag: 'hr' });
+	}
+
+
+	/**
+	 * Clean up of children items
+	*/
+	clear() {
+
+		// Start onClear, if it exists before any clean up
+		// If developer wants to do something with still existing data and implemented specific method
+		if ($.isFunction(this.onClear)) {
+			this.onClear();
+		}
+
+		// Recursively cleaning up all children structure
+		for (const child of this.children) {
+
+			// clear command first for most farer childs
+			if ($.isFunction(child.clear)) {
+				child.clear();
+			}
+
+			// Unsubcribling from Element.js events
+			if ($.isFunction(child.unsubscribe)) {
+				child.unsubscribe();
+			}
+		}
+
+		// Wiping out from garbage collector everywhere
+		this.children = [];
+
+		// Cleaning up jQuery object
+		// TODO: Refactoring might be needed
+		// Possible issue, as jQuery::empty() deletes only known for it jQuery elements
+		if (this.jqThis !== undefined) {
+			this.jqThis.empty();
+		}
 	}
 }
