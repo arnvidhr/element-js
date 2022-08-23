@@ -18,7 +18,7 @@ class Element {
 	 */
 	static ENFORCE_ID = false; // Do we need ids for every DOM element
 	static DEFAULT_ID_PREFIX = 'E';
-	static CONTROL_ID = '{control-id}';
+	static INSTANCE_NUM = '{instanceNo}';
 
 	static DEFAULT_ELEMENT = 'div'; // In case if consturctor parameters are empty
 
@@ -72,11 +72,15 @@ class Element {
 	];
 
 	/// Private attributes
-	#_params;	// Constructor's received raw params
-	#_tag;		// This HTML element tag
-	#_jqThis;	// This class jQuery representation
-	#_parent;	// Element class parent
-	#_jqParent;	// Parent jQuery representation
+	#_params;					// Constructor's received raw params
+	#_tag;						// This HTML element tag
+	#_jqThis;					// This class jQuery representation
+	#_parent;					// Element class parent
+	#_jqParent;					// Parent jQuery representation
+	#_instanceNo;				// Current class instance number, initialized in Element::#_init()
+
+	/// Private static
+	static #_sInstanceNum = 1;	// Class instance counter
 
 	/// Public properties
 	children = [];
@@ -86,10 +90,10 @@ class Element {
 
 	// HTMl Element tag
 	get tag() {
-		return this.jqThis.prop("tagName");
+		return this.prop("tagName");
 	}
 	set tag(val) {
-		this.jqThis.prop("tagName", val);
+		this.prop("tagName", val);
 	}
 
 	get isSelfClosingTag() {
@@ -104,14 +108,14 @@ class Element {
 	}
 
 	set html(val) {
-		this.jqThis.html(val);
+		this.jqThis.html(this.varProcessing(val));
 	}
 
 	get text() {
 		return this.jqThis.text();
 	}
 	set text(val) {
-		this.jqThis.text(val);
+		this.jqThis.text(this.varProcessing(val));
 	}
 
 	get val() {
@@ -119,7 +123,7 @@ class Element {
 	}
 
 	set val(val) {
-		this.jqThis.val(val);
+		this.jqThis.val(this.varProcessing(val));
 	}
 
 	// Regular bounds, like CSS and so on
@@ -135,6 +139,19 @@ class Element {
 	}
 	set height(val) {
 		this.jqThis.height(val);
+	}
+
+	// HTML DOM element id
+	get id() {
+		return this.attr(Element.ATTR_ID);
+	}
+	set id(val) {
+		this.attr(Element.ATTR_ID, val);
+	}
+
+	// Current class instance unique number
+	get instanceNo() {
+		return this.#_instanceNo;
 	}
 
 	// Parent element class
@@ -215,6 +232,12 @@ class Element {
 
 	#_init() {
 
+		// Increasing this class instance number
+		Element.#_sInstanceNum++;
+		// Assigning instance number to current class instance attribute
+		// Sort of unique indentifier of this class instance, acecssible via this.instanceNo for public use.
+		this.#_instanceNo = Element.#_sInstanceNum;
+
 		// HTML element tag fist. As it is crucial.
 		this.#_tag = this.#_params.tag;
 
@@ -259,7 +282,7 @@ class Element {
 		if (value === undefined)
 			return this.jqThis.attr(attr);
 		else
-			this.jqThis.attr(attr, value);
+			this.jqThis.attr(attr, this.varProcessing(value));
 	}
 
 	/*
@@ -269,12 +292,23 @@ class Element {
 		if (value === undefined)
 			return this.jqThis.prop(prop);
 		else
-			this.jqThis.attr(prop, value);
+			this.jqThis.prop(prop, this.varProcessing(value));
+	}
+
+	/**
+	 * Processing of assignning variable to place in it unique instance ids and so on
+	 * @param {any} val
+	 */
+	varProcessing(val) {
+		if ($.type(val) === 'string') {
+			return val.replace(Element.INSTANCE_NUM, this.instanceNo);
+		} else {
+			return val;
+		}
 	}
 
 	/*
 	 * add array|object to this Element as its child
-	 * 
 	 * @recursive
 	 */
 	add(params) {
