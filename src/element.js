@@ -18,7 +18,7 @@ class Element {
 	 */
 	static ENFORCE_ID = false; // Do we need ids for every DOM element
 	static DEFAULT_ID_PREFIX = 'E';
-	static INSTANCE_NUM = '{instanceNo}';
+	static INSTANCE_NO = '{instanceNo}';
 
 	static DEFAULT_ELEMENT = 'div'; // In case if consturctor parameters are empty
 
@@ -301,7 +301,7 @@ class Element {
 	 */
 	varProcessing(val) {
 		if ($.type(val) === 'string') {
-			return val.replace(Element.INSTANCE_NUM, this.instanceNo);
+			return val.replace(Element.INSTANCE_NO, this.instanceNo);
 		} else {
 			return val;
 		}
