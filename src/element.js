@@ -149,11 +149,6 @@ class Element {
 		this.attr(Element.ATTR_ID, val);
 	}
 
-	// Current class instance unique number
-	get instanceNo() {
-		return this.#_instanceNo;
-	}
-
 	// Parent element class
 	get parent() {
 		return this.#_parent;
@@ -206,6 +201,11 @@ class Element {
 	get className() {
 		// @see https://stackoverflow.com/a/30560581
 		return this.constructor.name;
+	}
+
+	// Current class instance unique number
+	get instanceNo() {
+		return this.#_instanceNo;
 	}
 
 	/*
