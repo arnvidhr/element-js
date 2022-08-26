@@ -252,7 +252,7 @@ class Element {
 
 				case 'attrs':
 					for (const key in val) {
-						this.attr(key, val[key]);
+						this.prop(key, val[key]);
 					}
 					break;
 
@@ -389,5 +389,13 @@ class Element {
 		if (this.jqThis !== undefined) {
 			this.jqThis.empty();
 		}
+	}
+
+	/**
+	 * Is this single attribute, like selected, disabled, required
+	 * @param {any} attr HTML attribute
+	 */
+	static isThisSingleAttribute(attr) {
+		return $.inArray(attr.toLowerCase(), Element.SINGLE_ATTRS) != -1;
 	}
 }
