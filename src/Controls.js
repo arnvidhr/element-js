@@ -1,4 +1,15 @@
-﻿class Checklist extends Element {
+﻿/**
+ * Controls.js is Element.js based controls library
+ * Written By Arvydas Grigonis
+ * 
+ * This software is opensource under Apache 2.00 licence.
+ * Legitimate for non-commercial and commercial use.
+ * 
+ * Requires: jQuery, Element.js
+ * 
+ * Project URL: https://github.com/arnvidhr/element-js
+ */
+class Checklist extends Element {
 
 	/// Private
 	#_options;	// Control's options
