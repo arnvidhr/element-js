@@ -187,7 +187,7 @@ class Element {
 
 	// jQuery level parent
 	get jqParent() {
-		if (this.#_parent instanceof Element) {
+		if (this.isElementParent) {
 			return this.parent.jqThis;
 		} else {
 			return this.#_jqParent;
@@ -195,6 +195,16 @@ class Element {
 	}
 	set jqParent(val) {
 		this.#_jqParent = val;
+	}
+
+	// Is parent is instance of an Element
+	get isElementParent() {
+		return this.#_parent instanceof Element;
+	}
+
+	// Is parent is instance of jQuery
+	get isJQueryParent() {
+		return this.#_parent instanceof jQuery;
 	}
 
 	// Current class name (with inheritance I think, not sure)
@@ -354,6 +364,56 @@ class Element {
 		return this.add({ tag: 'hr' });
 	}
 
+	/*
+	 * Remove method, has 3 work modes:
+	 * 
+	 * 1. subj.remove(); // removes itself 
+	 * 
+	 * 2. subj.renove(child); // removes specific its own child
+	 * 
+	 * 3. subj.remove(childrenArray); // removes its own children array
+	 * 
+	 */
+	remove() {
+
+		// If no arguments or remove itself
+		if (arguments.length > 0) {
+			var arg = arguments[0];
+
+			// If this an array
+			if ($.isArray(arg)) {
+
+				for (const child of arg) {
+					this.remove(child);
+				}
+
+			} else if (arg instanceof Element) {
+
+				// Find this child between children
+				var index = this.children.indexOf(arg);
+
+				// If something found
+				if (index != -1) {
+					// Removing it from children
+					var removed = this.children.splice(index, 1);
+					arg.jqThis.remove();
+				}
+
+			}
+
+		} else {
+
+			// In case parent is an Element
+			if (this.isElementParent) {
+				this.parent.remove(this);
+
+				// In case parent is an jQuery instances
+			} else if (this.isJQueryParent) {
+				this.jqThis.remove();
+			}
+		}
+
+	}
 
 	/**
 	 * Clean up of children items

@@ -167,8 +167,8 @@ class Checklist extends Element {
 		if ($.isArray(data)) {
 			for (const item of data) {
 
-				// Making halful intialized ID patter, with current checklist instance no, and as well spcific option Element::instanceNo 
-				// Which will be fully initialized during creation
+				// Making halful intialized ID pattern, with current checklist and specific option instances numbers
+				// Which will be fully initialized after creation
 				var idName = 'cl-opt' + this.instanceNo + 'A{instanceNo}';
 				var checkbox = item.control = new Element({
 					'tag': 'input',
