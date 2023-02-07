@@ -7,7 +7,7 @@
  * 
  * Requires: jQuery.
  * 
- * Project URL: https://github.com/arnvidhr/element-js
+ * Project URL: https://github.com/arnvidhr/element.js
  */
 
 class Element {

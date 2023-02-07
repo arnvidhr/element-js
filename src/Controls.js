@@ -7,7 +7,7 @@
  * 
  * Requires: jQuery, Element.js
  * 
- * Project URL: https://github.com/arnvidhr/element-js
+ * Project URL: https://github.com/arnvidhr/element.js
  */
 class Checklist extends Element {
 
